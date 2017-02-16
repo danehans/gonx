@@ -18,7 +18,7 @@ var (
 )
 
 // Client represents the nx-api ins_api endpoint request.
-type Client struct {
+type InsClient struct {
 	API InsAPI `json:"ins_api"`
 }
 
@@ -71,7 +71,7 @@ func main() {
 
 func insAPIRequest(username, password, address string) ([]byte, error) {
 	// Initialiaze an InsAPIClient
-	c := Client{
+	ic := InsClient{
 		API: InsAPI{
 			Version:      "1.2",
 			Type:         "cli_show",
@@ -82,7 +82,7 @@ func insAPIRequest(username, password, address string) ([]byte, error) {
 		},
 	}
 	// Marshall the InsAPIClient client.
-	cbuf, err := json.Marshal(c)
+	cbuf, err := json.Marshal(ic)
 	if err != nil {
 		fmt.Println("error:", err)
 	}
@@ -103,7 +103,7 @@ func insAPIRequest(username, password, address string) ([]byte, error) {
 	}
 	// Defer the closing of the body
 	defer resp.Body.Close()
-	// Read the content into an array of bytes
+	// Read the content into a byte slice
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
